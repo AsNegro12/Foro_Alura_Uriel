@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/topicos")
@@ -20,9 +23,15 @@ public class TopicoController
     private TopicoRespository topicoRespository;
 
     @PostMapping
-    public void creartopico(@RequestBody @Valid DatosCrearTopico datos)
+    public ResponseEntity<DatosRespuestaTopico> creartopico(@RequestBody @Valid DatosCrearTopico datos, UriComponentsBuilder uriComponentsBuilder)
     {
-        topicoRespository.save(new Topico(datos));
-        System.out.println(datos);
+        Topico topico = topicoRespository.save(new Topico(datos));
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(
+                topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getFecha_creacion(), topico.getEstatus(),
+                topico.getUsuario(), topico.getCurso()
+        );
+        URI url = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+
+        return ResponseEntity.created(url).body(datosRespuestaTopico);
     }
 }

@@ -39,4 +39,20 @@ public class Topico
         this.usuario = datos.usuario();
         this.curso = datos.curso();
     }
+
+    public void actualizar(DatosActualizarTopico datos)
+    {
+        if(datos.titulo() != null)
+        {
+            this.titulo = datos.titulo();
+        }
+        if(datos.mensaje() != null)
+        {
+            this.mensaje = datos.mensaje();
+        }
+        if(datos.estatus() != null)
+        {
+            this.estatus = datos.estatus();
+        }
+    }
 }

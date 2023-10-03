@@ -1,9 +1,7 @@
 package com.mx.foroAlura.foroAlura.controller;
 
-import com.mx.foroAlura.foroAlura.topicos.DatosCrearTopico;
-import com.mx.foroAlura.foroAlura.topicos.DatosListarTopicos;
-import com.mx.foroAlura.foroAlura.topicos.Topico;
-import com.mx.foroAlura.foroAlura.topicos.TopicoRespository;
+import com.mx.foroAlura.foroAlura.topicos.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,4 +39,19 @@ public class TopicoController
     {
         return topicoRespository.findAll(paginacion).map(DatosListarTopicos:: new);
     }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DatosRespuestaTopico> ActualizarTopico(@RequestBody @Valid DatosActualizarTopico datos, UriComponentsBuilder uriComponentsBuilder)
+    {
+        Topico topico =  topicoRespository.getReferenceById(datos.id());
+        topico.actualizar(datos);
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(
+                topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getFecha_creacion(), topico.getEstatus(),
+                topico.getUsuario(), topico.getCurso()
+        );
+        URI url = uriComponentsBuilder.path("topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(url).body(datosRespuestaTopico);
+    }
+    
 }

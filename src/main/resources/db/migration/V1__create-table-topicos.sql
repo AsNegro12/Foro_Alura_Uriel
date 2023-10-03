@@ -6,6 +6,7 @@ CREATE TABLE topicos(
     estatus VARCHAR(25) NOT NULL,
     usuario VARCHAR(50) NOT NULL,
     curso VARCHAR(50) NOT NULL,
+    activo BOOLEAN,
 
     primary key(id)
 );

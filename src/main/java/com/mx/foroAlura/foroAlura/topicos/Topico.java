@@ -28,6 +28,7 @@ public class Topico
 
     private String usuario;
     private String curso;
+    private Boolean activo;
 
 
     public Topico(DatosCrearTopico datos)
@@ -38,6 +39,7 @@ public class Topico
         this.estatus = Estatus.NO_RESPONDIDO;
         this.usuario = datos.usuario();
         this.curso = datos.curso();
+        this.activo = true;
     }
 
     public void actualizar(DatosActualizarTopico datos)
@@ -54,5 +56,9 @@ public class Topico
         {
             this.estatus = datos.estatus();
         }
+    }
+
+    public void desactivarTopico() {
+        this.activo = false;
     }
 }

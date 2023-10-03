@@ -22,7 +22,10 @@ public class Topico
     private String titulo;
     private String mensaje;
     private LocalDateTime fecha_creacion;
+
+    @Enumerated(EnumType.STRING)
     private Estatus estatus;
+
     private String usuario;
     private String curso;
 

@@ -1,6 +1,5 @@
 package com.mx.foroAlura.foroAlura.usuario;
 
-import com.mx.foroAlura.foroAlura.controller.DatosRegistrarUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

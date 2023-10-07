@@ -1,15 +1,14 @@
 package com.mx.foroAlura.foroAlura.controller;
 
-import com.mx.foroAlura.foroAlura.topicos.DatosRespuestaTopico;
-import com.mx.foroAlura.foroAlura.usuario.UsuarioRepository;
-import com.mx.foroAlura.foroAlura.usuario.Usuarios;
+import com.mx.foroAlura.foroAlura.topicos.DatosListarTopicos;
+import com.mx.foroAlura.foroAlura.usuario.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -31,5 +30,11 @@ public class UsuarioController
 
         URI url = uriComponentsBuilder.path("/usuarios/{id}").buildAndExpand(usuarios.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaUsuario);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DatosListarUsuarios>> listarUsuarios(@PageableDefault(size=2)Pageable paginacion)
+    {
+        return ResponseEntity.ok(usuarioRepository.findByActivoTrue(paginacion).map(DatosListarUsuarios:: new));
     }
 }
